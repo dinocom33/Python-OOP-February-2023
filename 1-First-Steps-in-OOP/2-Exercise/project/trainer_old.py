@@ -1,32 +1,30 @@
-from typing import List
 from project.pokemon import Pokemon
 
 
 class Trainer:
     def __init__(self, name: str):
         self.name = name
-        self.pokemons: List[Pokemon] = []
+        self.pokemons = []
+        self.health = 0
 
     def add_pokemon(self, pokemon: Pokemon):
-        if pokemon in self.pokemons:
+        pok_name, pok_health = pokemon.name, pokemon.health
+        if pok_name in self.pokemons:
             return "This pokemon is already caught"
-
-        self.pokemons.append(pokemon)
-        return f"Caught {pokemon.pokemon_details()}"
+        else:
+            self.pokemons.append(pok_name)
+            self.health = pok_health
+            return f"Caught {pok_name} with health {pok_health}"
 
     def release_pokemon(self, pokemon_name: str):
-        try:
-            pokemon = next(filter(lambda pok: pok.name == pokemon_name, self.pokemons))
-            # pokemon = [pok for pok in self.pokemons if pok.name == pokemon_name][0]
-            self.pokemons.remove(pokemon)
+        if pokemon_name in self.pokemons:
+            self.pokemons.remove(pokemon_name)
             return f"You have released {pokemon_name}"
-        # except IndexError:
-        except StopIteration:
+        else:
             return "Pokemon is not caught"
 
     def trainer_data(self):
-        return f"Pokemon Trainer {self.name}\nPokemon count {len(self.pokemons)}\n" + \
-                '\n'.join(f"- {pok.pokemon_details()}" for pok in self.pokemons)
+        return f"Pokemon Trainer {self.name}\nPokemon count {len(self.pokemons)}\n- {self.pokemons[0]} with health {self.health}"
 
 
 pokemon = Pokemon("Pikachu", 90)
