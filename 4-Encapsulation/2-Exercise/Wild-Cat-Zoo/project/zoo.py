@@ -1,3 +1,4 @@
+from typing import List
 from project.animal import Animal
 from project.worker import Worker
 
@@ -8,8 +9,8 @@ class Zoo:
         self.__budget = budget
         self.__animal_capacity = animal_capacity
         self.__workers_capacity = workers_capacity
-        self.animals = []
-        self.workers = []
+        self.animals: List[Animal] = []
+        self.workers: List[Worker] = []
 
     def add_animal(self, animal: Animal, price: int):
         if self.__budget - price < 0:
